@@ -46,4 +46,9 @@ app.post("/extract", (req, res) => {
   imap.connect();
 });
 
+// ✅ Homepage route so "Visit" shows a message
+app.get("/", (req, res) => {
+  res.send("Email Extractor backend is running!");
+});
+
 app.listen(4000, () => console.log("App running on http://localhost:4000"));

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Extractor</title>
+</head>
+<body>
+  <h2>Hotmail Contact Extractor</h2>
+  <form id="extractForm">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="App Password" required><br>
+    <input type="text" id="host" value="outlook.office365.com" required><br>
+    <button type="submit">Extract</button>
+  </form>
+  <ul id="contacts"></ul>
+
+  <script>
+    document.getElementById("extractForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const host = document.getElementById("host").value;
+
+      const res = await fetch("https://email-extractor.onrender.com/extract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, host })
+      });
+
+      const contacts = await res.json();
+      const list = document.getElementById("contacts");
+      list.innerHTML = "";
+      contacts.forEach(c => {
+        const li = document.createElement("li");
+        li.textContent = c;
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
